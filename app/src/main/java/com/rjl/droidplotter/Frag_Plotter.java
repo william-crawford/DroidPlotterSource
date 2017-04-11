@@ -25,7 +25,7 @@ public class Frag_Plotter extends Fragment {
     interface PlotInterface {
         void onSetLoggingEnabled(boolean b);
     }
-
+    // test commit
     private void InitPlotter(View v) {
         graphPlot = (GraphView) v.findViewById(R.id.plotview);
         Switch swDataStream = (Switch) v.findViewById(R.id.swLogEn);
