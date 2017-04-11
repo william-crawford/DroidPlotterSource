@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/actbgcolor" android:padding="5dp" android:paddingLeft="5dp"
+                android:paddingTop="5dp" android:paddingRight="5dp" android:paddingBottom="5dp">
+
+    <Switch
+            android:textColor="@color/colorAccent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enable Bluetooth"
+            android:id="@+id/SwEnableBt" android:layout_alignParentTop="true" android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" android:checked="false" android:textSize="20sp"/>
+    <TextView
+            android:textColor="@color/colorAccent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Selected Device: "
+            android:id="@+id/textView" android:layout_below="@+id/SwEnableBt" android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"/>
+    <TextView
+            android:textColor="@color/colorAccent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Example bluetooth device"
+            android:id="@+id/txtDevice" android:layout_below="@+id/SwEnableBt" android:layout_toRightOf="@+id/textView"
+    />
+    <TextView
+            android:textColor="@color/colorAccent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="00:00:00:AA:BB:FF"
+            android:id="@+id/txtMacAddr"
+            android:layout_marginLeft="26dp" android:layout_marginStart="26dp" android:layout_below="@+id/SwEnableBt"
+            android:layout_toRightOf="@+id/txtDevice" android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"/>
+
+    <TextView
+            android:textColor="@color/colorAccent" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Paired devices" android:id="@+id/textView12"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" android:layout_below="@+id/textView"/>
+    <ListView
+            android:descendantFocusability="blocksDescendants"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/listPairedDevice" android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" android:layout_below="@+id/textView12"/>
+
+</RelativeLayout>

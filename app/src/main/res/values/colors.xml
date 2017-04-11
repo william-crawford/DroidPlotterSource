@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#050505</color>
+    <color name="colorPrimaryDark">#101010</color>
+    <color name="colorAccent">#00ea03</color>
+    <color name="bgButtonColor">#5a5a5a</color>
+    <color name="fgButtonColor">#0aa00a</color>
+    <color name="actbgcolor">#202020</color>
+    <color name="spinbgcolor">#303030</color>
+</resources>
