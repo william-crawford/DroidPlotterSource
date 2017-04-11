@@ -56,7 +56,7 @@ public class MainPlot extends AppCompatActivity
         fragAdapter.AddFragments(new Frag_Plotter());
         ViewPager viewPage = (ViewPager) findViewById(R.id.page_container);
         viewPage.setAdapter(fragAdapter);
-        //
+
         blue_State = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
