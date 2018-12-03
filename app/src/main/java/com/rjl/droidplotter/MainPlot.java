@@ -45,7 +45,7 @@ public class MainPlot extends AppCompatActivity
     private boolean checkConnected = false;
     private boolean logEnabled = false;
     private double plotCount = 1;
-    private double plotlen = 121;
+    private double plotlen = 250;
     private double plotRes = 1;
 
     @SuppressLint("HandlerLeak")
@@ -106,32 +106,58 @@ public class MainPlot extends AppCompatActivity
                     case RECIEVE_MESSAGE:                                             // if receive massage
                         byte[] readBuf = (byte[]) msg.obj;
                         String strIncom = new String(readBuf, 0, msg.arg1);           // create string from bytes array
+//                        System.out.println(strIncom);
                         sb.append(strIncom);                                          // append string
-                        int endOfLineIndex = sb.indexOf("\r\n");                      // determine the end-of-line
-                        if (endOfLineIndex > 0) {                                     // if end-of-line,
-                            String sbprint = sb.substring(0, endOfLineIndex);         // extract string
-                            double dbl;
-                            String[] strSplit;
-                            if (sbprint.contains("-l")) {                   // change this delimiter depending on your application
-                                strSplit = sbprint.split("-l");            // change this delimiter depending on your application
-                                try {
-                                    dbl = Double.parseDouble(strSplit[1]);
-                                    prev = scaler(dbl, 0, 3.3, -3.3, 3.3);  // change this value depending on your application
-                                    if (logEnabled) {
-                                        if (plotCount <= plotlen) {
-                                            setPlot(plotCount, prev);
-                                            plotCount = plotCount + plotRes;
-                                        } else {
-                                            clearGraph();
-                                            plotCount = 0;
-                                        }
+                        try {
+                            String[] splitStr = strIncom.split("\r\n", 0);                      // determine the end-of-line
+                            if (splitStr.length > 2) {                                     // if end-of-line,
+                                String sbprint = splitStr[1];
+                                double toPlot = Integer.parseInt(sbprint.trim());
+                                if (logEnabled) {
+                                    System.out.println(String.format("PRINTING: \"%s\", %f", strIncom, toPlot));
+                                    if (plotCount <= plotlen) {
+                                        setPlot(plotCount, toPlot);
+                                        plotCount = plotCount + plotRes;
+                                    } else {
+                                        clearGraph();
+                                        plotCount = 0;
                                     }
-                                } catch (NumberFormatException nfe) {
-                                    prev = 0;
                                 }
                             }
-                            sb.delete(0, sb.length()); // clear
+                        } catch (Exception e) {
+                            System.out.println(String.format("DATA ERROR: \"%s\"   %s", strIncom, e.getMessage()));
+//                            System.out.println(strIncom);
+//                            System.out.println("DATA ERROR\n\n\n");
+
                         }
+
+//                        int endOfLineIndex = sb.indexOf("\r\n");                      // determine the end-of-line
+//                        if (endOfLineIndex > 0) {                                     // if end-of-line,
+//                            String sbprint = sb.substring(0, endOfLineIndex);         // extract string
+//                            double dbl;
+//                            String[] strSplit;
+////                            if (sbprint.contains("-l")) {                   // change this delimiter depending on your application
+////                                strSplit = sbprint.split("-l");            // change this delimiter depending on your application
+//                                try {
+//                                    dbl = Double.parseDouble(sbprint);
+////                                    prev = scaler(dbl, 0, 3.3, -3.3, 3.3);  // change this value depending on your application
+//                                    prev = dbl;
+//                                    if (logEnabled) {
+//                                        System.out.println("PRINTING");
+//                                        if (plotCount <= plotlen) {
+//                                            setPlot(plotCount, prev);
+//                                            plotCount = plotCount + plotRes;
+//                                        } else {
+//                                            clearGraph();
+//                                            plotCount = 0;
+//                                        }
+//                                    }
+//                                } catch (NumberFormatException nfe) {
+//                                    prev = 0;
+//                                }
+////                            }
+//                            sb.delete(0, sb.length()); // clear
+//                        }
                         break;
                 }
             }

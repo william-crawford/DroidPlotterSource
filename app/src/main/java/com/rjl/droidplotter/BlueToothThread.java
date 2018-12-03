@@ -3,6 +3,7 @@ package com.rjl.droidplotter;
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
 
+import java.io.Console;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -33,7 +34,10 @@ public class BlueToothThread extends Thread{
                 // Read from the InputStream
                 int bytes = btInputStream.read(buffData);
                 btHandler.obtainMessage(1, bytes, -1, buffData).sendToTarget();		// Send to message queue Handler
+//                System.out.print("data: ");
+//                System.out.println(bytes);
             } catch (IOException e) {
+                System.out.println("BLUETOOTH EXCEPTION\nBLUETOOTH EXCEPTION\nBLUETOOTH EXCEPTION\nBLUETOOTH EXCEPTION\nBLUETOOTH EXCEPTION\nBLUETOOTH EXCEPTION\nBLUETOOTH EXCEPTION\nBLUETOOTH EXCEPTION\nBLUETOOTH EXCEPTION\nBLUETOOTH EXCEPTION\n");
                 break;
             }
         }

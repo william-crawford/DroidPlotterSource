@@ -18,7 +18,7 @@ public class Frag_Plotter extends Fragment {
 
     private LineGraphSeries<DataPoint> dataSeries;
     private PlotInterface plotter;
-    private double plotSize = 121;
+    private double plotSize = 250;
     private GraphView graphPlot;
     private TextView txtXval, txtYval;
 
@@ -37,10 +37,10 @@ public class Frag_Plotter extends Fragment {
         graphPlot.getGridLabelRenderer().setHorizontalLabelsColor(Color.parseColor("#008c07"));
         dataSeries = new LineGraphSeries<>();
         dataSeries.setColor(Color.parseColor("#e2ea00"));
-        SetGraphParam(121, -0.5, 4.1, -4.1);
+        SetGraphParam(250, -0.5, 600, 200);
         setPlotParamBound();
-        plotSize = 122;
-        for (int i = 0; i < 121; i++) {
+        plotSize = 250;
+        for (int i = 0; i < 249; i++) {
             dataSeries.appendData(new DataPoint(i, 2.75 * Math.sin(i / 2.5)), false, (int) plotSize);
         }
         graphPlot.addSeries(dataSeries);
