@@ -18,15 +18,33 @@ public class Frag_Plotter extends Fragment {
 
     private LineGraphSeries<DataPoint> dataSeries;
     private PlotInterface plotter;
-    private double plotSize = 250;
+    private double plotSize;
     private GraphView graphPlot;
     private TextView txtXval, txtYval;
 
     interface PlotInterface {
         void onSetLoggingEnabled(boolean b);
+        void plotData();
+        void resetData();
     }
     // test commit
     private void InitPlotter(View v) {
+        Button plotButton = (Button) v.findViewById(R.id.button_plot);
+        plotButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                plotter.plotData();
+            }
+        });
+
+        Button resetButton = (Button) v.findViewById(R.id.button_plot_reset);
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                plotter.resetData();
+            }
+        });
+
         graphPlot = (GraphView) v.findViewById(R.id.plotview);
         Switch swDataStream = (Switch) v.findViewById(R.id.swLogEn);
         txtXval = (TextView) v.findViewById(R.id.txtXval);
@@ -37,11 +55,11 @@ public class Frag_Plotter extends Fragment {
         graphPlot.getGridLabelRenderer().setHorizontalLabelsColor(Color.parseColor("#008c07"));
         dataSeries = new LineGraphSeries<>();
         dataSeries.setColor(Color.parseColor("#e2ea00"));
-        SetGraphParam(250, -0.5, 600, 200);
+        SetGraphParam(250, -0.5, 750, -50);
         setPlotParamBound();
-        plotSize = 250;
+        plotSize = 20000;
         for (int i = 0; i < 249; i++) {
-            dataSeries.appendData(new DataPoint(i, 2.75 * Math.sin(i / 2.5)), false, (int) plotSize);
+//            dataSeries.appendData(new DataPoint(i, 2.75 * Math.sin(i / 2.5)), false, (int) plotSize);
         }
         graphPlot.addSeries(dataSeries);
         swDataStream.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

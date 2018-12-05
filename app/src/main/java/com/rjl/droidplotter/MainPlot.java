@@ -27,6 +27,8 @@ public class MainPlot extends AppCompatActivity
 
     private PlotFragAdapter fragAdapter;
 
+    private Context context = this;
+
     static Handler btHandler;
     private static final int RECIEVE_MESSAGE = 1;
     private static final UUID my_Bt_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
@@ -47,6 +49,8 @@ public class MainPlot extends AppCompatActivity
     private double plotCount = 1;
     private double plotlen = 250;
     private double plotRes = 1;
+
+    private String inData = "";
 
     @SuppressLint("HandlerLeak")
     private void InitPlot() {
@@ -106,30 +110,38 @@ public class MainPlot extends AppCompatActivity
                     case RECIEVE_MESSAGE:                                             // if receive massage
                         byte[] readBuf = (byte[]) msg.obj;
                         String strIncom = new String(readBuf, 0, msg.arg1);           // create string from bytes array
-//                        System.out.println(strIncom);
-                        sb.append(strIncom);                                          // append string
-                        try {
-                            String[] splitStr = strIncom.split("\r\n", 0);                      // determine the end-of-line
-                            if (splitStr.length > 2) {                                     // if end-of-line,
-                                String sbprint = splitStr[1];
-                                double toPlot = Integer.parseInt(sbprint.trim());
-                                if (logEnabled) {
-                                    System.out.println(String.format("PRINTING: \"%s\", %f", strIncom, toPlot));
-                                    if (plotCount <= plotlen) {
-                                        setPlot(plotCount, toPlot);
-                                        plotCount = plotCount + plotRes;
-                                    } else {
-                                        clearGraph();
-                                        plotCount = 0;
-                                    }
-                                }
-                            }
-                        } catch (Exception e) {
-                            System.out.println(String.format("DATA ERROR: \"%s\"   %s", strIncom, e.getMessage()));
-//                            System.out.println(strIncom);
-//                            System.out.println("DATA ERROR\n\n\n");
-
+                        if (logEnabled) {
+                            inData = inData + strIncom;
                         }
+
+
+//                    case RECIEVE_MESSAGE:                                             // if receive massage
+//                        byte[] readBuf = (byte[]) msg.obj;
+//                        String strIncom = new String(readBuf, 0, msg.arg1);           // create string from bytes array
+////                        System.out.println(strIncom);
+//                        sb.append(strIncom);                                          // append string
+//                        try {
+//                            String[] splitStr = strIncom.split("\r\n", 0);                      // determine the end-of-line
+//                            if (splitStr.length > 2) {                                     // if end-of-line,
+//                                String sbprint = splitStr[1];
+//                                double toPlot = Integer.parseInt(sbprint.trim());
+//                                if (logEnabled) {
+//                                    System.out.println(String.format("PRINTING: \"%s\", %f", strIncom, toPlot));
+//                                    if (plotCount <= plotlen) {
+//                                        setPlot(plotCount, toPlot);
+//                                        plotCount = plotCount + plotRes;
+//                                    } else {
+//                                        clearGraph();
+//                                        plotCount = 0;
+//                                    }
+//                                }
+//                            }
+//                        } catch (Exception e) {
+//                              System.out.println(String.format("DATA ERROR: \"%s\"   %s", strIncom, e.getMessage()));
+////                            System.out.println(strIncom);
+////                            System.out.println("DATA ERROR\n\n\n");
+//
+//                        }
 
 //                        int endOfLineIndex = sb.indexOf("\r\n");                      // determine the end-of-line
 //                        if (endOfLineIndex > 0) {                                     // if end-of-line,
@@ -162,6 +174,30 @@ public class MainPlot extends AppCompatActivity
                 }
             }
         };
+    }
+
+    public void plotData() {
+        int plotted = 0;
+        try {
+            String[] splitStr = inData.split("[\\r?\\n]+");
+            Toast.makeText(this, String.format("plotting %d datapoints", splitStr.length - 2), Toast.LENGTH_SHORT).show();
+            if (splitStr.length > 2) {
+                for (int i = 1; i < splitStr.length - 1; i++) {
+                    double toPlot = Integer.parseInt(splitStr[i].trim());
+                    setPlot(1.0 * i * plotlen / splitStr.length, toPlot);
+                    plotted++;
+                }
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, String.format("failed after %d points", plotted), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+            System.out.println("STACKTRACE");
+        }
+    }
+
+    public void resetData() {
+        inData = "";
+        clearGraph();
     }
 
     // scale raw input from arduino to whatever value you want, this was taken directly from
